@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getCart, getCartTotal, clearCart } from "../utils/cart";
 import { API_BASE_URL } from "../utils/api";
+import { formatPrice } from "../utils/format";
 
 const REQUIRED_SHIPPING_FIELDS = [
   "fullName",
@@ -362,7 +363,7 @@ function Checkout() {
                 disabled={placing}
                 className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition disabled:opacity-50"
               >
-                {placing ? "Processing..." : `Pay $${total.toFixed(2)}`}
+                {placing ? "Processing..." : `Pay ${formatPrice(total)}`}
               </button>
             </form>
           </div>
@@ -390,7 +391,7 @@ function Checkout() {
                   </div>
 
                   <p className="font-medium">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatPrice(item.price * item.quantity)}
                   </p>
                 </div>
               ))}
@@ -398,7 +399,7 @@ function Checkout() {
 
             <div className="border-t pt-4 flex justify-between font-semibold text-lg">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
           </div>
         </div>

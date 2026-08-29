@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../utils/api";
+import { formatPrice } from "../utils/format";
 
 const STATUS_OPTIONS = ["Processing", "Shipped", "Delivered", "Cancelled"];
 
@@ -201,7 +202,7 @@ function SellerOrders() {
                     <div className="flex-1">
                       <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-gray-500">
-                        Qty: {item.quantity} × ${item.price}
+                        Qty: {item.quantity} × {formatPrice(item.price)}
                       </p>
                     </div>
 
@@ -241,7 +242,7 @@ function SellerOrders() {
               {/* Subtotal */}
               <div className="mt-4 pt-4 border-t text-right">
                 <p className="font-semibold">
-                  Your Subtotal: ${order.mySubtotal?.toFixed(2)}
+                  Your Subtotal: {formatPrice(order.mySubtotal)}
                 </p>
               </div>
             </div>

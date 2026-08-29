@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../utils/api";
+import { formatPrice } from "../utils/format";
 
 function SellerAnalytics() {
   const [data, setData] = useState(null);
@@ -86,7 +87,7 @@ function SellerAnalytics() {
           <div className="bg-white rounded-2xl shadow-sm border p-6">
             <p className="text-sm text-gray-500">Total Earnings</p>
             <p className="text-3xl font-bold text-gray-900 mt-2">
-              ${data.totalEarnings.toFixed(2)}
+              {formatPrice(data.totalEarnings)}
             </p>
             <p className="text-xs text-gray-400 mt-1">
               After platform fee, from paid orders
@@ -122,17 +123,17 @@ function SellerAnalytics() {
                   className="flex flex-col items-center justify-end h-full min-w-[48px]"
                 >
                   <p className="text-xs font-medium text-gray-700 mb-1">
-                    ${day.earnings.toFixed(0)}
+                    {formatPrice(day.earnings)}
                   </p>
 
                   <div
-                    className="w-8 bg-black rounded-t-md"
+                    className="w-8 bg-gray-900 rounded-t-md"
                     style={{
                       height: `${
                         (day.earnings / maxDailyEarnings) * 180 + 4
                       }px`,
                     }}
-                    title={`$${day.earnings.toFixed(2)} · ${day.units} unit(s)`}
+                    title={`${formatPrice(day.earnings)} · ${day.units} unit(s)`}
                   />
 
                   <p className="text-[10px] text-gray-400 mt-2 whitespace-nowrap">
@@ -176,7 +177,7 @@ function SellerAnalytics() {
                   </div>
 
                   <p className="font-semibold text-gray-900">
-                    ${product.earnings.toFixed(2)}
+                    {formatPrice(product.earnings)}
                   </p>
                 </div>
               ))}

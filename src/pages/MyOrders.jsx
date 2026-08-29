@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../utils/api";
+import { formatPrice } from "../utils/format";
 
 const statusColors = {
   Processing: "bg-yellow-100 text-yellow-800",
@@ -120,7 +121,7 @@ function MyOrders() {
                       <div className="flex-1">
                         <p className="font-medium">{item.name}</p>
                         <p className="text-sm text-gray-500">
-                          Qty: {item.quantity} × ${item.price}
+                          Qty: {item.quantity} × {formatPrice(item.price)}
                         </p>
                       </div>
 
@@ -138,7 +139,7 @@ function MyOrders() {
 
                 <div className="mt-4 pt-4 border-t text-right">
                   <p className="font-semibold">
-                    Total: ${order.totalAmount.toFixed(2)}
+                    Total: {formatPrice(order.totalAmount)}
                   </p>
                 </div>
               </div>

@@ -6,6 +6,7 @@ import {
   removeFromCart,
   getCartTotal,
 } from "../utils/cart";
+import { formatPrice } from "../utils/format";
 
 function Cart() {
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ function Cart() {
                   )}
 
                   <p className="text-gray-900 font-medium mt-2">
-                    ${item.price}
+                    {formatPrice(item.price)}
                   </p>
                 </div>
 
@@ -138,7 +139,7 @@ function Cart() {
 
                 {/* Line Total */}
                 <p className="w-20 text-right font-semibold">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {formatPrice(item.price * item.quantity)}
                 </p>
 
                 {/* Remove */}
@@ -158,7 +159,7 @@ function Cart() {
 
             <div className="flex justify-between text-gray-600 mb-2">
               <span>Subtotal</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
 
             <div className="flex justify-between text-gray-600 mb-4">
@@ -168,7 +169,7 @@ function Cart() {
 
             <div className="flex justify-between font-bold text-lg border-t pt-4 mb-6">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
 
             <button

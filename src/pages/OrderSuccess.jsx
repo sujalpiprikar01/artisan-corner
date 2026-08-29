@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { API_BASE_URL } from "../utils/api";
+import { formatPrice } from "../utils/format";
 
 function OrderSuccess() {
   const { id } = useParams();
@@ -86,12 +87,12 @@ function OrderSuccess() {
                 <div className="flex-1">
                   <p className="font-medium">{item.name}</p>
                   <p className="text-sm text-gray-500">
-                    Qty: {item.quantity} × ${item.price}
+                    Qty: {item.quantity} × {formatPrice(item.price)}
                   </p>
                 </div>
 
                 <p className="font-semibold">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {formatPrice(item.price * item.quantity)}
                 </p>
               </div>
             ))}
@@ -110,7 +111,7 @@ function OrderSuccess() {
 
           <div className="flex justify-between font-bold text-xl mt-6 pt-6 border-t">
             <span>Total</span>
-            <span>${order.totalAmount.toFixed(2)}</span>
+            <span>{formatPrice(order.totalAmount)}</span>
           </div>
 
           <div className="flex gap-4 mt-8">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../utils/api";
+import { formatPrice } from "../utils/format";
 
 function SellerProducts() {
   const [products, setProducts] = useState([]);
@@ -134,7 +135,7 @@ function SellerProducts() {
 
                       {/* Price */}
                       <td className="px-6 py-4 font-semibold">
-                        ${product.price}
+                        {formatPrice(product.price)}
                       </td>
 
                       {/* Stock */}

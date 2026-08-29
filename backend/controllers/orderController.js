@@ -1,6 +1,7 @@
 const Order = require("../models/Order");
 const Product = require("../models/Product");
-const MockPayment = require("../models/MockPayment");
+const Stripe = require("stripe");
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const { priceCartItems } = require("../utils/pricing");
 
 // Create a new order (checkout) — only after a successful mock payment
@@ -37,14 +38,14 @@ const createOrder = async (req, res) => {
 
     if (!paymentIntentId) {
       return res.status(400).json({
-        message: "Missing paymentIntentId. Payment must be completed before placing the order.",
+        message:
+          "Missing paymentIntentId. Payment must be completed before placing the order.",
       });
     }
 
     // Confirm the payment actually succeeded (never trust the client's
     // word for it)
-    const payment = await MockPayment.findById(paymentIntentId);
-
+    const payment = await stripe.paymentIntents.retrieve(paymentIntentId);
     if (!payment || payment.status !== "succeeded") {
       return res.status(402).json({
         message: "Payment has not been completed successfully",
@@ -159,12 +160,12 @@ const getVendorOrders = async (req, res) => {
     // along with a subtotal for those items
     const vendorOrders = orders.map((order) => {
       const myItems = order.items.filter(
-        (item) => item.vendor.toString() === req.user.id
+        (item) => item.vendor.toString() === req.user.id,
       );
 
       const mySubtotal = myItems.reduce(
         (sum, item) => sum + item.price * item.quantity,
-        0
+        0,
       );
 
       return {
@@ -253,6 +254,7 @@ const getVendorAnalytics = async (req, res) => {
     }).sort({ createdAt: 1 });
 
     let totalEarnings = 0;
+    let totalRevenue = 0;
     let totalOrders = 0;
     let totalUnitsSold = 0;
 
@@ -261,7 +263,7 @@ const getVendorAnalytics = async (req, res) => {
 
     for (const order of orders) {
       const myItems = order.items.filter(
-        (item) => item.vendor.toString() === vendorId
+        (item) => item.vendor.toString() === vendorId,
       );
 
       if (myItems.length === 0) continue;
@@ -276,6 +278,7 @@ const getVendorAnalytics = async (req, res) => {
 
       for (const item of myItems) {
         totalEarnings += item.vendorPayout;
+        totalRevenue += item.price * item.quantity;
         totalUnitsSold += item.quantity;
 
         salesByDate[dateKey].earnings += item.vendorPayout;
@@ -312,6 +315,7 @@ const getVendorAnalytics = async (req, res) => {
 
     res.status(200).json({
       totalEarnings: Number(totalEarnings.toFixed(2)),
+      totalRevenue: Number(totalRevenue.toFixed(2)),
       totalOrders,
       totalUnitsSold,
       salesHistory,
