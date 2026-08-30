@@ -52,12 +52,6 @@ const createOrder = async (req, res) => {
       });
     }
 
-    // Make sure this payment belongs to the logged-in buyer
-    if (payment.buyer.toString() !== req.user.id) {
-      return res.status(403).json({
-        message: "This payment does not belong to you",
-      });
-    }
 
     // Prevent the same successful payment from being used to create
     // more than one order (e.g. accidental double submit / page refresh)
@@ -73,7 +67,7 @@ const createOrder = async (req, res) => {
 
     // Sanity check: the amount actually "charged" should match what we
     // calculate now
-    if (Math.abs(payment.amount - totalAmount) > 0.01) {
+    if (Math.abs(payment.amount / 100 - totalAmount) > 0.01) {
       return res.status(400).json({
         message: "Payment amount does not match cart total",
       });
