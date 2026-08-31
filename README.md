@@ -656,7 +656,6 @@ The project provides practical implementation experience across frontend develop
 
 **Sujal Piprikar**
 
-Full Stack Developer Intern
 
 GitHub:
 [https://github.com/sujalpiprikar01](https://github.com/sujalpiprikar01)
