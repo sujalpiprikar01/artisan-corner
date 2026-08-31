@@ -11,10 +11,10 @@ The platform allows buyers to browse products, manage their shopping cart, place
 ## Live Application
 
 **Frontend:**  
-https://artisan-corner.vercel.app/
+https://artisan-corner-three.vercel.app/
 
 **Backend API:**  
-https://artisan-corner-jb9u.onrender.com/api
+https://artisan-corner-jb9u.onrender.com
 
 **GitHub Repository:**  
 https://github.com/sujalpiprikar01/artisan-corner
